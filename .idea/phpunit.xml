@@ -5,6 +5,8 @@
       <list>
         <option value="$PROJECT_DIR$/bank-WSB/tests/Unit" />
         <option value="$PROJECT_DIR$/bank-WSB/tests/Feature" />
+        <option value="$PROJECT_DIR$/bankWSB/tests/Unit" />
+        <option value="$PROJECT_DIR$/bankWSB/tests/Feature" />
       </list>
     </option>
   </component>

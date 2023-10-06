@@ -31,13 +31,21 @@ Route::get('/users/{user}/edit', [UserController::class, 'edit'])
     ->middleware(['auth', 'verified'])
     ->name('useredit');
 
+Route::get('/users/{user}/delete', [UserController::class, 'delete'])
+    ->middleware(['auth', 'verified'])
+    ->name('userdelete');
+
 Route::put('/users/{user}', [UserController::class, 'update'])
     ->middleware(['auth', 'verified'])
     ->name('userupdate');
 
-//Route::get('/userdelete', [UserController::class, 'delete'])
-    //->middleware(['auth', 'verified'])
-    //->name('userdelete');
+Route::get('/users/create', [UserController::class, 'create'])
+    ->middleware(['auth', 'verified'])
+    ->name('usercreate');
+
+Route::post('/users', [UserController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('userstore');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

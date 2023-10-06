@@ -6,6 +6,9 @@
     </x-slot>
     <x-slot name="slot">
         <div class="container">
+            <div class="pt-6 pb-8">
+                <a href="{{ route('usercreate') }}" class="btn btn-success">Dodaj nowego użytkownika</a>
+            </div>
             <table class="table">
                 <thead>
                 <tr>
@@ -16,42 +19,36 @@
                 </thead>
                 <tbody>
                 @foreach ($users as $user)
+                        @if (session("success_user_{$user->id}"))
+                            <div class="alert alert-success" id="successAlert_{{ $user->id }}">
+                                {{ session("success_user_{$user->id}") }}
+                                <button class="close" onclick="hideSuccessAlert({{ $user->id }})">
+                                    <span>&times;</span>
+                                </button>
+                            </div>
+                        @endif
                     <tr>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
                             <div class="btn-group">
-                                <a href="{{ route('useredit', ['user' => $user->id]) }}" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="{{ route('useredit', ['user' => $user->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+                                <a href="{{ route('useredit', ['user' => $user->id]) }}" class="btn btn-primary btn-sm">Edytuj</a>
+                                <a href="{{ route('useredit', ['user' => $user->id]) }}" class="btn btn-danger btn-sm">Usuń</a>
                             </div>
                         </td>
                     </tr>
-                    <div>
-                        <div class="row no-gutters fixed-top">
-                            <div class="col-lg-5 col-md-12 ml-auto">
-                                <div id="alert-div" role="alert">
-                                    @if (session("success_user_{$user->id}"))
-                                        <div class="alert alert-success">
-                                            {{ session("success_user_{$user->id}") }}
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 @endforeach
                 </tbody>
             </table>
         </div>
-
         <script>
-            // Funkcja, która usunie div "alert-div" po 4 sekundach
-            setTimeout(function() {
-                var alertDiv = document.getElementById('alert-div');
-                if (alertDiv) {
-                    alertDiv.remove();
+            function hideSuccessAlert(userId) {
+                var alertId = 'successAlert_' + userId;
+                var alertElement = document.getElementById(alertId);
+                if (alertElement) {
+                    alertElement.style.display = 'none';
                 }
-            }, 4000);
+            }
         </script>
     </x-slot>
 </x-app-layout>

@@ -32,10 +32,27 @@ class UserController extends Controller
         session()->flash("success_user_{$user->id}", "Dane użytkownika {$user->name} zostały zaktualizowane.");
         return redirect('usercontrol', 302);
     }
-    //public function delete(User $user)
-    //{
-    //    $user->delete();
-    //    session()->flash("success_user_{$user->id}", "Dane użytkownika {$user->name} zostały usunięte.");
-    //    return redirect('usercontrol', 302);
-    //}
+    public function create()
+    {
+        return view('usercreate');
+    }
+    public function store(Request $request)
+    {
+        // Walidacja danych
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+        ]);
+
+        // Tworzenie nowego użytkownika
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
+
+        session()->flash("success_user_{$user->id}", "Nowy użytkownik został dodany.");
+        return redirect('usercontrol', 302);
+    }
 }
